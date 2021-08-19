@@ -13,28 +13,28 @@
   package:
     name: "{{ neovim_package_name }}"
     state: absent
-  when: ansible_os_family != 'Archlinux'
+  when: ansible_os_family != 'Archlinux' and ansible_distribution != 'Fedora'
 
 - name: Install latest neovim using AppImage
   get_url:
-    url: "https://github.com/neovim/neovim/releases/{{ neovim_nvim_version }}/download/nvim.appimage"
+    url: "https://github.com/neovim/neovim/releases/download/{{ neovim_nvim_version }}/nvim.appimage"
     dest: /usr/local/bin/nvim.appimage
     mode: 0755
     force: true
-  when: ansible_os_family != 'Archlinux'
+  when: ansible_os_family != 'Archlinux' or ansible_distribution != 'Fedora'
 
-- name: Install latest neovim for Archlinux
-  community.general.pacman:
+- name: Install latest neovim for Arch Linux or Fedora
+  package:
     name: "{{ neovim_package_name }}"
     state: latest
-  when: ansible_os_family == 'Archlinux'
+  when: ansible_os_family == 'Archlinux' or ansible_distribution == 'Fedora'
 
 - name: Update default paths
   community.general.alternatives:
     name: "{{ item }}"
     path: /usr/local/bin/nvim.appimage
     priority: 110
-  loops:
+  loop:
   - ex
   - vi
   - view

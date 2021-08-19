@@ -1,7 +1,7 @@
 Ansible Duo Neovim Role
 =======================
 
-Role to install latest [neovim](https://github.com/neovim/neovim.git) using [Appimage](https://appimage.org/) (except for Arch Linux based OS).
+Role to install latest [neovim](https://github.com/neovim/neovim.git) using [Appimage](https://appimage.org/) (except for Arch Linux based OS and Fedora).
 
 Supported OS Families
 ---------------------

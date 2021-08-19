@@ -1,0 +1,43 @@
+---
+- name: Gather os specific variables
+  include_vars: "{{ lookup('first_found', items) }}"
+  vars:
+    items:
+      files:
+      - "{{ ansible_distribution }}.yml"
+      - "{{ ansible_os_family }}.yml"
+      paths:
+      - ./vars
+
+- name: Remove currently installed neovim
+  package:
+    name: "{{ neovim_package_name }}"
+    state: absent
+  when: ansible_os_family != 'Archlinux'
+
+- name: Install latest neovim using AppImage
+  get_url:
+    url: "https://github.com/neovim/neovim/releases/{{ neovim_nvim_version }}/download/nvim.appimage"
+    dest: /usr/local/bin/nvim.appimage
+    mode: 0755
+    force: true
+  when: ansible_os_family != 'Archlinux'
+
+- name: Install latest neovim for Archlinux
+  community.general.pacman:
+    name: "{{ neovim_package_name }}"
+    state: latest
+  when: ansible_os_family == 'Archlinux'
+
+- name: Update default paths
+  community.general.alternatives:
+    name: "{{ item }}"
+    path: /usr/local/bin/nvim.appimage
+    priority: 110
+  loops:
+  - ex
+  - vi
+  - view
+  - vim
+  - vimdiff
+  when: ansible_os_family == 'Debian'

@@ -1,0 +1,4 @@
+---
+neovim_package_name:
+- neovim
+- python-pynvim

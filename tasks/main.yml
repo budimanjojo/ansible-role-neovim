@@ -1,33 +1,41 @@
 ---
-- name: Gather os specific variables
-  include_vars: "{{ lookup('first_found', items) }}"
-  vars:
-    items:
-      files:
-      - "{{ ansible_distribution }}.yml"
-      - "{{ ansible_os_family }}.yml"
-      paths:
-      - ./vars
-
-- name: Remove currently installed neovim
-  package:
-    name: "{{ neovim_package_name }}"
-    state: absent
-  when: ansible_os_family != 'Archlinux' and ansible_distribution != 'Fedora'
-
 - name: Install latest neovim using AppImage
   get_url:
     url: "https://github.com/neovim/neovim/releases/download/{{ neovim_nvim_version }}/nvim.appimage"
     dest: /usr/local/bin/nvim.appimage
     mode: 0755
     force: true
-  when: ansible_os_family != 'Archlinux' or ansible_distribution != 'Fedora'
+  when: ansible_distribution == 'Debian'
 
 - name: Install latest neovim for Arch Linux or Fedora
   package:
     name: "{{ neovim_package_name }}"
     state: latest
   when: ansible_os_family == 'Archlinux' or ansible_distribution == 'Fedora'
+
+- block:
+  - name: Add PPA for Ubuntu
+    ansible.builtin.apt_repository:
+      repo: ppa:neovim-ppa/stable
+      state: present
+
+  - name: Install latest neovim for Ubuntu
+    apt:
+      name: "{{ neovim_package_name }}"
+      state: latest
+  when: ansible_distribution == 'Ubuntu'
+
+- block:
+  - name: Enable epel repository
+    yum:
+      name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+      state: present
+
+  - name: Install latest neovim for CentOS
+    yum:
+      name: "{{ neovim_package_name }}"
+      state: present
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
 - name: Update default paths
   community.general.alternatives:
@@ -40,4 +48,5 @@
   - view
   - vim
   - vimdiff
-  when: ansible_os_family == 'Debian'
+  - nvim
+  when: ansible_distribution == 'Debian'

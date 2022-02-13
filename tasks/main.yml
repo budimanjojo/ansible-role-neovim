@@ -41,6 +41,7 @@
   community.general.alternatives:
     name: "{{ item }}"
     path: /usr/local/bin/nvim.appimage
+    link: /usr/bin/{{item}}
     priority: 110
   loop:
   - ex

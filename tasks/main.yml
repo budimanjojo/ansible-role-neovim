@@ -5,7 +5,7 @@
     dest: /usr/local/bin/nvim.appimage
     mode: 0755
     force: true
-  when: ansible_distribution == 'Debian'
+  when: ansible_distribution in ['Debian', 'Linux Mint']
 
 - name: Install latest neovim for Arch Linux or Fedora
   package:
@@ -50,4 +50,4 @@
   - vim
   - vimdiff
   - nvim
-  when: ansible_distribution == 'Debian'
+  when: ansible_distribution in ['Debian', 'Linux Mint']

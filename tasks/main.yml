@@ -1,6 +1,6 @@
 ---
 - name: Install latest neovim using AppImage
-  get_url:
+  ansible.builtin.get_url:
     url: "https://github.com/neovim/neovim/releases/download/{{ neovim_nvim_version }}/nvim.appimage"
     dest: /usr/local/bin/nvim.appimage
     mode: 0755
@@ -8,7 +8,7 @@
   when: ansible_distribution in ['Debian', 'Linux Mint']
 
 - name: Install latest neovim for Arch Linux or Fedora
-  package:
+  ansible.builtin.package:
     name: "{{ neovim_package_name }}"
     state: latest
   when: ansible_os_family == 'Archlinux' or ansible_distribution == 'Fedora'
@@ -20,19 +20,19 @@
       state: present
 
   - name: Install latest neovim for Ubuntu
-    apt:
+    ansible.builtin.apt:
       name: "{{ neovim_package_name }}"
       state: latest
   when: ansible_distribution == 'Ubuntu'
 
 - block:
   - name: Enable epel repository
-    yum:
+    ansible.builtin.yum:
       name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
       state: present
 
   - name: Install latest neovim for CentOS
-    yum:
+    ansible.builtin.yum:
       name: "{{ neovim_package_name }}"
       state: present
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'

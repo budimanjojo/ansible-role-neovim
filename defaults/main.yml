@@ -1,5 +1,5 @@
 ---
 # renovate: depName=neovim/neovim datasource=github-releases
-neovim_nvim_version: v0.6.1
+neovim_nvim_version: v0.7.0
 
 neovim_package_name: neovim

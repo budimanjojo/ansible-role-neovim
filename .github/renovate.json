@@ -1,19 +1,23 @@
 {
-    "enabled": true,
-    "semanticCommits": "enabled",
-    "labels": ["renovatebot"],
-    "commitBody": "Signed-Off by: Budiman JOJO <budimanjojo@gmail.com",
-    "semanticCommitScope": "deps",
-    "dependencyDashboard": false,
-    "suppressNotifications": ["prIgnoreNotification"],
-    "rebaseWhen": "conflicted",
-    "automerge": true,
-    "regexManagers": [
-        {
-            "fileMatch": ["defaults/main.yml"],
-            "matchStrings": [
-                "# renovate: depName=(?<depName>.*) datasource=(?<datasource>.*)\\n.+: (?<currentValue>.*)\\b"
-            ]
-        }
-    ]
+  "enabled": true,
+  "platform": "github",
+  "username": "budimanjojo-bot[bot]",
+  "repositories": ["budimanjojo/ansible-role-neovim"],
+  "gitAuthor": "budimanjojo-bot <111944664+budimanjojo-bot[bot]@users.noreply.github.com>",
+  "semanticCommits": "enabled",
+  "labels": ["renovatebot"],
+  "commitBody": "Signed-Off by: Budiman JOJO <budimanjojo@gmail.com",
+  "semanticCommitScope": "deps",
+  "dependencyDashboard": false,
+  "suppressNotifications": ["prIgnoreNotification"],
+  "rebaseWhen": "conflicted",
+  "automerge": true,
+  "regexManagers": [
+    {
+      "fileMatch": ["defaults/main.yml"],
+      "matchStrings": [
+        "# renovate: depName=(?<depName>.*) datasource=(?<datasource>.*)\\n.+: (?<currentValue>.*)\\b"
+      ]
+    }
+  ]
 }
